@@ -10,12 +10,9 @@ public class Working_At_The_Restaurant {
         t = scanner.nextInt();
 
         for (int i = 0; i < t; ++i) {
-
             input(i);
         }
-
     }
-
     private static void input(int count_1) {
         int n= scanner.nextInt();
         ArrayList<String > commmand = new ArrayList();
@@ -36,31 +33,29 @@ public class Working_At_The_Restaurant {
                 System.out.println("DROP 1 " + number_of_plates.get(count));
                 count++;
             } else if (commmand.get(count).equals("TAKE")) {
-                System.out.println("MOVE 1->2 " + ist);
-
-                second = ist;
-                ist = 0;
-                System.out.println("TAKE 2 " + number_of_plates.get(count));
-                second -= number_of_plates.get(count);
-                count++;
-
-                if (count != number_of_plates.size()) {
-                    if (commmand.get(count).equals("TAKE")) {
-                        System.out.println("TAKE 2 " + number_of_plates.get(count));
-                        second -= number_of_plates.get(count);
+                if(number_of_plates.get(count)<=second) {
+                    System.out.println("TAKE 2 " + number_of_plates.get(count));
+                    second-=number_of_plates.get(count);
+                    count++;
+                }
+                else {
+                    if(second!=0){
+                        System.out.println("TAKE 2 " + second);
+                        System.out.println("MOVE 1->2 " + ist);
+                        System.out.println("TAKE 2 " + String.valueOf(number_of_plates.get(count)-second));
+                        second=ist-number_of_plates.get(count)-second;
+                        ist=0;
                         count++;
-                    } else if (commmand.get(count).equals("DROP")) {
-                        System.out.println("MOVE 2->1 " + second);
-                        System.out.println("DROP 1 " + number_of_plates.get(count));
-                        ist = second + number_of_plates.get(count);
-                        second = 0;
+                    }
+                    else {
+                        System.out.println("MOVE 1->2 " + ist);
+                        System.out.println("TAKE 2 " + String.valueOf(number_of_plates.get(count)-second));
+                        second=ist-number_of_plates.get(count);
+                        ist=0;
                         count++;
                     }
                 }
-
             }
-
         }
-
     }
 }

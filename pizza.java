@@ -1,94 +1,91 @@
-import java.util.*;
 
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
 
 public class pizza {
 
+    static Scanner sc;
 
-    static int n,m;
-   static ArrayList<HashSet<Integer>> arrayLists;
-
-    static Scanner sc= new Scanner(System.in);
-    public static void main(String s[]) {
-        int t;
-
-        t = sc.nextInt();
+    public static void main(String[] s) {
+        sc= new Scanner(System.in);
+        int t = sc.nextInt();
 
         for (int i = 0; i < t; i++) {
             pizza pizza = new pizza();
-            arrayLists = new ArrayList<>();
-            pizza.input();
+            pizza.input(i);
+        }
+    }
 
+    public void input(int count) {
+        int flag=0;
+         int n;
+         int m;
+         int first=0, second=0;
+         ArrayList<Integer> first_array= new ArrayList<>();
+        ArrayList<Integer> second_array= new ArrayList<>();
+        n = sc.nextInt();
+        m = sc.nextInt();
+        char colorArray[] = new char[n];
+        for (int i = 0; i < n;i++) {
+            colorArray[i] = 'y';
+        }
 
-            int flag = 0;
-            if (n != 2)
-                for (Set<Integer> abc : arrayLists) {
-                    if (abc.size() == n) {
-                        flag++;
-                    }
+        for (int i = 0; i < m; i++) {
+             first = sc.nextInt();
+             second = sc.nextInt();
+             first_array.add(first);
+             second_array.add(second);
+        }
+        for (int i = 0; i < m; i++) {
+            first=first_array.get(i);
+            second=second_array.get(i);
+            if(colorArray[first-1]=='y' && colorArray[second-1]=='y') {/// for the first time initialize the colors
+                if (colorArray[first - 1] == 'y') {
+                    colorArray[first - 1] = 'b';
                 }
-                int casee=i+1;
-
-            if (flag > 1) {
-                System.out.println("Case #" + casee + ": " + "no");
-
+                if (colorArray[second - 1] == 'y') {
+                    colorArray[second - 1] = 'w';
+                }
             }
-            else
+
+            // if first color is black and second color is either yellow then make it white.
+            else if(colorArray[first-1]=='b' && (colorArray[second-1]=='y'))
+                {
+                    colorArray[second-1]='w';
+                }
+            // if first color is white and second color is yellow then make it black.
+            else if(colorArray[first-1]=='w' && (colorArray[second-1]=='y'))
             {
-                System.out.println("Case #" + casee + ": " + "yes");
+                colorArray[second-1]='b';
+            }
+            // if second color is black and first color is yellow then make it whote
+            else if(colorArray[second-1]=='b' && (colorArray[first-1]=='y'))
+            {
+                colorArray[first-1]='w';
+            }
+            // if second color is white and first color is yellow then make it black .
+            else if(colorArray[second-1]=='w' && (colorArray[first-1]=='y'))
+            {
+                colorArray[first-1]='b';
+            }
+            else if((colorArray[first-1]=='w'|| colorArray[first-1]=='b')&& colorArray[second-1]== (colorArray[first-1]))
+            {
+                flag=1;
+                break;
+            }
 
             }
-            flag = 0;
-        }
+
+        if(flag==1)
+            System.out.println("Case #" + (++count) + ": "+"no");
+        else
+            System.out.println("Case #" + (++count) + ": "+"yes");
+
+
+
     }
-
-     void input()
-    {
-        n=sc.nextInt();
-        m= sc.nextInt();
-        for(int i=0;i<n;i++)
-        {
-            HashSet<Integer> integers= new HashSet<>();
-            integers.add(null);
-            arrayLists.add(integers);
-        }
-
-        for(int i=0;i<m;i++)
-        {
-
-            int first=sc.nextInt();
-            int second=sc.nextInt();
-            if(arrayLists.get(first-1).contains(null)) {
-                HashSet<Integer> integers= new HashSet<>();
-                integers.add(first);
-                integers.add(second);
-                arrayLists.set(first-1, integers);
-            }
-            else
-            {
-                HashSet<Integer> integers= new HashSet<>();
-                integers=arrayLists.get(first-1);
-                integers.add(first);
-                integers.add(second);
-                arrayLists.set(first-1,integers);
-            }
-
-            if(arrayLists.get(second-1).contains(null)) {
-                HashSet<Integer> integers= new HashSet<>();
-                integers.add(second);
-                integers.add(first);
-                arrayLists.set(second-1, integers);
-            }
-            else
-            {
-                HashSet<Integer> integers= new HashSet<>();
-                integers=arrayLists.get(second-1);
-                integers.add(first);
-                integers.add(second);
-                arrayLists.set(second-1,integers);
-            }
-
-        }
-    }
-
-
 }
